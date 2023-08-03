@@ -1,12 +1,12 @@
-
-from sqlalchemy.orm import Session
-from order import models, schemas
 from fastapi import HTTPException, status
-from order.hashing import Hash
+from sqlalchemy.orm import Session
+
+from order import models, schemas
+from order.hashing import bcrypt
 
 
 def create(request: schemas.Account, db: Session):
-    new_account = models.Account(account=request.account, email=request.email, password=Hash.bcrypt(request.password))
+    new_account = models.Account(account=request.account, email=request.email, password=bcrypt(request.password))
     db.add(new_account)
     db.commit()
     db.refresh(new_account)
