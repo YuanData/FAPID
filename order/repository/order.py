@@ -28,6 +28,7 @@ def create(request: schemas.Order, db: Session, current_acct):
         order_type=request.order_type,
         symbol=request.symbol,
         volume=request.volume,
+        price=request.price,
         account_id=account.id)
     db.add(new_order)
     db.commit()
@@ -47,7 +48,8 @@ def update(id: int, request: schemas.Order, db: Session, current_acct):
         "account_id": account.id,
         "order_type": request.order_type,
         "symbol": request.symbol,
-        "volume": request.volume
+        "volume": request.volume,
+        "price": request.price,
     }
 
     order.update(update_dict)

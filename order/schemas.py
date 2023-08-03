@@ -5,7 +5,8 @@ from pydantic import BaseModel
 
 class OrderBase(BaseModel):
     order_type: str = "Buy"
-    symbol: str = "AUDCAD"
+    symbol: str = "EURUSD"
+    price: float = 1.09
     volume: int = 1000
 
 
@@ -31,6 +32,7 @@ class ShowOrder(BaseModel):
     id: int
     order_type: str
     symbol: str
+    price: float
     volume: int
 
     class Config:

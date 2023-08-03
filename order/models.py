@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from order.database import Base
+from sqlalchemy import Column, Integer, Float, String, ForeignKey
 from sqlalchemy.orm import relationship
+
+from order.database import Base
 
 
 class Order(Base):
@@ -10,6 +11,7 @@ class Order(Base):
     account_id = Column(Integer, ForeignKey('accounts.id'))
     order_type = Column(String)
     symbol = Column(String)
+    price = Column(Float)
     volume = Column(Integer)
 
     orderowner = relationship("Account", back_populates="orders")
