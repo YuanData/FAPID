@@ -1,6 +1,8 @@
 .DS_Store
 .idea
+.python-version
 */__pycache__
+/.cache
 *.db
 Pipfile
 Pipfile.lock

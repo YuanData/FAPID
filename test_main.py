@@ -45,6 +45,7 @@ def test_get_account(name):
 
 def verify_login(name):
     test_create_account(name)
+
     url = f"{SERVER_URL}login"
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
     data = {
@@ -56,9 +57,8 @@ def verify_login(name):
         "client_secret": ""
     }
     response = client.post(url, headers=headers, data=data)
-    assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
-
     response_data = response.json()
+    assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
     assert 'access_token' in response_data, "access_token not in response"
     assert 'token_type' in response_data, "token_type not in response"
     return response_data
@@ -92,15 +92,13 @@ def verify_get_order(headers, id: int, data):
 
 @pytest.mark.parametrize("data", [{"order_type": "Sell", "symbol": "EURUSD", "volume": 2000}])
 def test_get_orders(name, data):
-    verify_create_order(name, data)
     headers, _ = verify_create_order(name, data)
 
     url = ORDER_API
     resp = client.get(url, headers=headers)
     resp_json = resp.json()
     resp_lst = [{k: v for k, v in dic.items() if k != 'id'} for dic in resp_json]
-
-    expected_resp = [data, data]
+    expected_resp = [data]
     assert resp.status_code == 200, f"Expected 200, but got {resp.status_code}"
     assert resp_lst == expected_resp, f"Expected {expected_resp}, but got {resp_lst}"
 
@@ -108,7 +106,7 @@ def test_get_orders(name, data):
 @pytest.mark.parametrize("data", [{"order_type": "Buy", "symbol": "AUDUSD", "volume": 3000}])
 def test_update_order(name, data):
     headers, id = verify_create_order(name, data)
-    updated_data = {"order_type": "Buy", "symbol": "AUDCAD", "volume": 3000}
+    updated_data = {"order_type": "Sell", "symbol": "EURUSD", "volume": 3500}
 
     url = f"{ORDER_API}{id}"
     resp = client.put(url, headers=headers, json=updated_data)
