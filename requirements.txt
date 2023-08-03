@@ -1,5 +1,6 @@
 uvicorn
 fastapi
+faker
 bcrypt
 httpx
 pytest
